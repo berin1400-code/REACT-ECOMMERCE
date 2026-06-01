@@ -1,25 +1,94 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+
+import Header from './components/Header'
+import Footer from './components/Footer'
+
+import Home from './pages/Home'
+import About from './pages/About'
+import ProductDetails from './pages/ProductDetails'
+import AddProduct from './pages/AddProduct'
+import EditProduct from './pages/EditProduct'
+import Login from './pages/Login'
+import Cart from './pages/Cart'
+
+import {
+  Routes,
+  Route
+} from 'react-router-dom'
+
+import AuthProvider from './context/AuthContext'
+
+import CartProvider from './context/CartContext'
+
+import ProtectedRoute from './routes/ProtectedRoute'
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    <AuthProvider>
+
+      <CartProvider>
+
+        <Header />
+
+        <Routes>
+
+          <Route
+            path="/"
+            element={<Login />}
+          />
+
+          <Route
+            path="/home"
+            element={<Home />}
+          />
+
+          <Route
+            path="/about"
+            element={<About />}
+          />
+
+          <Route
+            path="/cart"
+            element={<Cart />}
+          />
+
+          <Route
+            path="/product/:id"
+            element={<ProductDetails />}
+          />
+
+          <Route
+            path="/add"
+            element={
+              <ProtectedRoute>
+
+                <AddProduct />
+
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/edit/:id"
+            element={
+              <ProtectedRoute>
+
+                <EditProduct />
+
+              </ProtectedRoute>
+            }
+          />
+
+        </Routes>
+
+        <Footer />
+
+      </CartProvider>
+
+    </AuthProvider>
+  )
 }
 
-export default App;
+export default App
